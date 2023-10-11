@@ -31,9 +31,19 @@ class Sudoku {
     return true;
   }
 
-  bool isFinished(){
-
+  bool isFinished() {
+  for (int row = 0; row < 9; row++) {
+    for (int col = 0; col < 9; col++) {
+      int value = board[row][col];
+      // Check if the square is empty or not a valid move
+      if (value == 0 || !isValidMove(row, col, value)) {
+        return false;
+      }
+    }
   }
+  return true;
+}
+
 
   int getValue(int row, int col) {
     return board[row][col];
