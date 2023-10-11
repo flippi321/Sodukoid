@@ -12,7 +12,7 @@ class Sudoku {
   }
 
   Future<bool> loadBoard(String boardName) async {
-    // Load the CSV from the assets
+    // Load the CSV from assets/boards
     final data = await rootBundle.loadString('assets/boards/$boardName.csv');
     
     // Parse the CSV string
@@ -48,6 +48,10 @@ class Sudoku {
   }
 
   bool isValidMove(int row, int col, int value) {
+    // Value has to be between 0 and 9
+    if(value < 0 && value > 9){
+      return false;
+    }
     // If the given value is locked, we cannot overwrite the value
     if(lockedSquares[row][col]){
       return false;
