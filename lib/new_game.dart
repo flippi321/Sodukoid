@@ -1,12 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:soduku_app/classes/sodokuClass.dart';
+import 'package:soduku_app/sodukuBoard.dart';
 
-enum Difficulty{
-    easy,
-    medium,
-    hard
-}
+enum Difficulty { easy, medium, hard }
 
 class NewGamePage extends StatelessWidget {
   const NewGamePage({super.key});
@@ -22,7 +20,8 @@ class NewGamePage extends StatelessWidget {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10), // Blur effect
             child: Container(
-              color: Colors.black.withOpacity(0.15), // Slight backround color to the appbar
+              color: Colors.black
+                  .withOpacity(0.15), // Slight backround color to the appbar
             ),
           ),
         ),
@@ -93,15 +92,27 @@ class NewGamePage extends StatelessWidget {
     );
   }
 
-  void _loadGame(BuildContext context, Difficulty difficulty) {
-    if (difficulty == Difficulty.easy){
-      
-    } else if (difficulty == Difficulty.medium){
-      
-    } else if (difficulty == Difficulty.hard){
-      
+  void _loadGame(BuildContext context, Difficulty difficulty) async {
+    // Mark the method as async
+    // TODO add more boards so difficulty actuallly matters...
+    String boardName = "easy1";
+
+    Sudoku board = Sudoku();
+
+    bool success = await board
+        .loadBoard(boardName); // Use await to wait for the method to complete
+
+    if (success) {
+      // ignore: use_build_context_synchronously
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SudokuBoardPage(
+              board:
+                  board), // Removed the const keyword since board is a variable
+        ),
+      );
     }
-    // TODO Load correctly
-    print('Loading game with difficulty: ${difficulty.name}');
+    // TODO valid else?
   }
 }
