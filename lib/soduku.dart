@@ -1,3 +1,6 @@
+import 'package:csv/csv.dart';
+import 'package:flutter/services.dart';
+
 class Sudoku {
   late List<List<int>> board;
   late List<List<bool>> lockedSquares;
@@ -5,6 +8,31 @@ class Sudoku {
 
   Sudoku() {
     board = List.generate(9, (i) => List.generate(9, (j) => 0));
+    lockedSquares = List.generate(9, (i) => List.generate(9, (j) => false));
+  }
+
+  Future<bool> loadBoard(String boardName) async {
+    // Load the CSV from the assets
+    final data = await rootBundle.loadString('assets/boards/$boardName.csv');
+    
+    // Parse the CSV string
+    final List<List<dynamic>> rows = const CsvToListConverter().convert(data);
+
+    for (int i = 0; i < 9; i++) {
+      for (int j = 0; j < 9; j++) {
+        board[i][j] = int.parse(rows[i][j].toString());
+
+        // If the board value is non-zero, lock the square
+        lockedSquares[i][j] = board[i][j] != 0;
+      }
+    }
+
+    solutionLocation = 'assets/boards/${boardName}Solution.csv';
+    return true;
+  }
+
+  bool isFinished(){
+
   }
 
   int getValue(int row, int col) {
