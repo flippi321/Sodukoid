@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'classes/sodokuClass.dart';
 
 class SudokuBoardPage extends StatefulWidget {
-  final Sudoku sudoku;
+  final Sudoku board;
 
-  const SudokuBoardPage({super.key, required this.sudoku});
+  const SudokuBoardPage({super.key, required this.board});
 
   @override
   SudokuBoardPageState createState() => SudokuBoardPageState();
@@ -30,8 +30,8 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
           itemBuilder: (BuildContext context, int index) {
             int row = index ~/ 9;
             int col = index % 9;
-            int value = widget.sudoku.getValue(row, col);
-            bool isLocked = widget.sudoku.lockedSquares[row][col];
+            int value = widget.board.getValue(row, col);
+            bool isLocked = widget.board.lockedSquares[row][col];
 
             return Padding(
               padding: const EdgeInsets.all(2.0),
@@ -50,7 +50,7 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                 onChanged: (newValue) {
                   if (newValue.isNotEmpty) {
                     int newIntValue = int.parse(newValue);
-                    widget.sudoku.setValue(row, col, newIntValue);
+                    widget.board.setValue(row, col, newIntValue);
                   }
                 },
               ),
