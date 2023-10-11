@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'classes/sodokuClass.dart';
 
@@ -14,7 +15,20 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sudoku Board')),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        title: const Text("New Game"),
+        backgroundColor: Colors.transparent,
+        flexibleSpace: ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10), // Blur effect
+            child: Container(
+              color: Colors.black
+                  .withOpacity(0.15), // Slight backround color to the appbar
+            ),
+          ),
+        ),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
