@@ -9,12 +9,20 @@ class Sudoku {
     return board[row][col];
   }
 
-  void setValue(int row, int col, int value) {
-    board[row][col] = value;
+  bool setValue(int row, int col, int value) {
+    if(isValidMove(row, col, value)){
+      board[row][col] = value;
+      return true;
+    }
+    return false;
   }
 
   bool isValidMove(int row, int col, int value) {
-    // TODO add method
+    for (int i = 0; i < 10; i++){
+      if(){
+
+      }
+    }
     return true;
   }
 
