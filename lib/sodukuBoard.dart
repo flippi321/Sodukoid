@@ -80,7 +80,7 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                           border: Border.all(color: borderColor),
                         ),
                         child: Text(
-                          value == 0 ? '' : value.toString(),
+                          value == -1 ? '' : value.toString(),
                           style: const TextStyle(fontSize: 20.0),
                         ),
                       ),
