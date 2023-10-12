@@ -25,7 +25,8 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10), // Blur effect
             child: Container(
-              color: Colors.black.withOpacity(0.15), // Slight background color to the appbar
+              color: Colors.black
+                  .withOpacity(0.15), // Slight background color to the appbar
             ),
           ),
         ),
@@ -38,48 +39,72 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
             colors: [Colors.orange, Colors.blue],
           ),
         ),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 9,
-          ),
-          itemBuilder: (BuildContext context, int index) {
-            int row = index ~/ 9;
-            int col = index % 9;
-            int value = widget.board.getValue(row, col);
-            bool isLocked = widget.board.lockedSquares[row][col];
-            Color borderColor = Colors.black38;  // Default border color
-            Color? cellColor = isLocked ? Colors.grey[300] : Colors.white;
-
-            // The selected square will have a blue backround
-            if (selectedSquare != null && !isLocked && selectedSquare![0] == row && selectedSquare![1] == col) {
-              cellColor = Colors.blueAccent;
-            }
-            
-
-            return Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: GestureDetector(
-                onTap: () {
-                  setState(() { // Ensuring UI reflects the change
-                    selectedSquare = [row, col];
-                  });
-                  print('Square pressed: $selectedSquare');
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: cellColor,
-                    border: Border.all(color: borderColor),
-                  ),
-                  child: Text(
-                    value == 0 ? '' : value.toString(),
-                    style: const TextStyle(fontSize: 20.0),
-                  ),
+        child: Column(
+          children: [
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 9,
                 ),
+                itemBuilder: (BuildContext context, int index) {
+                  int row = index ~/ 9;
+                  int col = index % 9;
+                  int value = widget.board.getValue(row, col);
+                  bool isLocked = widget.board.lockedSquares[row][col];
+                  Color borderColor = Colors.black38; // Default border color
+                  Color? cellColor = isLocked ? Colors.grey[300] : Colors.white;
+
+                  // The selected square will have a blue backround
+                  if (selectedSquare != null &&
+                      !isLocked &&
+                      selectedSquare![0] == row &&
+                      selectedSquare![1] == col) {
+                    cellColor = Colors.blueAccent;
+                  }
+
+                  return Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          // Ensuring UI reflects the change
+                          selectedSquare = [row, col];
+                        });
+                        print('Square pressed: $selectedSquare');
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: cellColor,
+                          border: Border.all(color: borderColor),
+                        ),
+                        child: Text(
+                          value == 0 ? '' : value.toString(),
+                          style: const TextStyle(fontSize: 20.0),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                itemCount: 81,
               ),
-            );
-          },
-          itemCount: 81,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Wrap(
+                spacing: 8.0, // Gap between buttons
+                runSpacing: 4.0, // Gap between rows
+                children: List.generate(10, (index) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      print('Button $index has been pressed');
+                    },
+                    child: Text('$index'),
+                  );
+                }),
+              ),
+            ),
+          ],
         ),
       ),
     );
