@@ -108,6 +108,9 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                       } else {
                         print("No square selected");
                       }
+
+                      // Update state to show our changes in the board
+                      setState(() {});
                     },
                     child: Text('$index'),
                   );
