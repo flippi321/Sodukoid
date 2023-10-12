@@ -41,6 +41,7 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
         ),
         child: Column(
           children: [
+            const SizedBox(height: 50,),
             Expanded(
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
