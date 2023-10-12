@@ -98,7 +98,16 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                 children: List.generate(10, (index) {
                   return ElevatedButton(
                     onPressed: () {
-                      print('Button $index has been pressed');
+                      // If we have selected a square we can modify it's value
+                      if(selectedSquare!=null && selectedSquare?[0] != null && selectedSquare?[1] != null){
+                        if (widget.board.setValue(selectedSquare![0], selectedSquare![1], index)){
+                          print("Value at $selectedSquare cahnged to $index");
+                        } else {
+                          print("Could not change the value");
+                        }
+                      } else {
+                        print("No square selected");
+                      }
                     },
                     child: Text('$index'),
                   );
