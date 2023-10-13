@@ -10,7 +10,7 @@ class Sudoku {
   Sudoku() {
     board = List.generate(9, (i) => List.generate(9, (j) => (0)));
     lockedSquares = List.generate(9, (i) => List.generate(9, (j) => false));
-    coloredSquares = List.generate(9, (i) => List.generate(9, (j) => const Color.fromRGBO(255, 255, 255, 1.0)));
+    coloredSquares = List.generate(9, (i) => List.generate(9, (j) => Colors.white));
   }
 
   Future<bool> loadBoard(String boardName) async {
@@ -27,7 +27,7 @@ class Sudoku {
         // If the board value is non-zero, lock the square
         if(board[i][j] !=0){
           lockedSquares[i][j] = true;
-          coloredSquares[i][j] = Colors.white38;
+          coloredSquares[i][j] = Colors.grey[400]!;
         }
       }
     }
@@ -73,6 +73,18 @@ class Sudoku {
   bool clearColor(int row, int col) {
     return setColor(row, col, Colors.white);
   }
+
+  bool clearAllColors() {
+  for (int i = 0; i < 9; i++) {
+    for (int j = 0; j < 9; j++) {
+      if (!lockedSquares[i][j]) { // If the square is not locked
+        coloredSquares[i][j] = const Color.fromRGBO(255, 255, 255, 1.0); // set to white
+      }
+    }
+  }
+  return true;
+}
+
 
   bool isValidPosition(int row, int col, int value){
     // Parse every square sharing the same row or column
