@@ -22,7 +22,7 @@ class Sudoku {
         board[i][j].value = int.parse(rows[i][j].toString());
 
         // If the board value is non-zero, lock the square
-        if(board[i][j] !=0){
+        if(board[i][j].value !=0){
           board[i][j].isLocked = true;
           board[i][j].backgroundColor = Colors.grey[400]!;
         }
