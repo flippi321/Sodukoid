@@ -57,7 +57,7 @@ class Sudoku {
     return false;
   }
 
-  bool isValidPosition(row, col, value){
+  bool isValidPosition(int row, int col, int value){
     // Parse every square sharing the same row or column
       for (int i = 0; i < 9; i++){
         // If the square shares the same value, this move is invalid
