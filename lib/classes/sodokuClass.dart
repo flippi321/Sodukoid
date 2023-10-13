@@ -36,7 +36,7 @@ class Sudoku {
     for (int col = 0; col < 9; col++) {
       int value = board[row][col];
       // Check if the square is empty or not a valid move
-      if (value == 0 || !isValidMove(row, col, value)) {
+      if (value == 0 || !isValidPosition(row, col, value)) {
         return false;
       }
     }
