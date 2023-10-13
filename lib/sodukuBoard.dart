@@ -23,10 +23,9 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
         backgroundColor: Colors.transparent,
         flexibleSpace: ClipRect(
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10), // Blur effect
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
-              color: Colors.black
-                  .withOpacity(0.15), // Slight background color to the appbar
+              color: Colors.black.withOpacity(0.15),
             ),
           ),
         ),
@@ -41,7 +40,9 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
         ),
         child: Column(
           children: [
-            const SizedBox(height: 50,),
+            const SizedBox(
+              height: 50,
+            ),
             Expanded(
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -52,10 +53,18 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                   int col = index % 9;
                   int value = widget.board.getValue(row, col);
                   bool isLocked = widget.board.lockedSquares[row][col];
-                  Color borderColor = Colors.black38; // Default border color
-                  Color? cellColor = isLocked ? Colors.grey[300] : Colors.white;
 
-                  // The selected square will have a blue backround
+                  Color borderColor = Colors.black; // bottom border
+                  Color? cellColor = isLocked ? Colors.grey[300] : Colors.white;
+                  Color textColor = Colors.black; // default text color
+
+                  if (!widget.board.isValidPosition(row, col, value) &&
+                      !isLocked) {
+                    textColor = Colors
+                        .red; // Change text color to red for invalid squares
+                  }
+
+                  // The selected square is blue
                   if (selectedSquare != null &&
                       !isLocked &&
                       selectedSquare![0] == row &&
@@ -64,11 +73,14 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                   }
 
                   return Padding(
-                    padding: const EdgeInsets.all(2.0),
+                    padding: EdgeInsets.fromLTRB(
+                        (col % 3 == 0) ? 2.0 : 0.5,
+                        (row % 3 == 0) ? 2.0 : 0.5,
+                        (col % 3 == 2) ? 2.0 : 0.5,
+                        (row % 3 == 2) ? 2.0 : 0.5),
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          // Ensuring UI reflects the change
                           selectedSquare = [row, col];
                         });
                         print('Square pressed: $selectedSquare');
@@ -81,7 +93,7 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                         ),
                         child: Text(
                           value == 0 ? '' : value.toString(),
-                          style: const TextStyle(fontSize: 20.0),
+                          style: TextStyle(fontSize: 20.0, color: textColor),
                         ),
                       ),
                     ),
@@ -93,18 +105,18 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Wrap(
-                spacing: 8.0, // Gap between buttons
-                runSpacing: 4.0, // Gap between rows
+                spacing: 8.0,
+                runSpacing: 4.0,
                 children: List.generate(10, (index) {
                   return ElevatedButton(
                     onPressed: () {
-                      // If we have selected a square we can modify it's value
-                      if(selectedSquare!=null && selectedSquare?[0] != null && selectedSquare?[1] != null){
-                        if (widget.board.setValue(selectedSquare![0], selectedSquare![1], index)){
-                          print("Value at $selectedSquare cahnged to $index");
-                          // Update state to show our changes in the board
+                      if (selectedSquare != null &&
+                          selectedSquare?[0] != null &&
+                          selectedSquare?[1] != null) {
+                        if (widget.board.setValue(
+                            selectedSquare![0], selectedSquare![1], index)) {
                           setState(() {});
-                          if(widget.board.isFinished()){
+                          if (widget.board.isFinished()) {
                             print("Finished");
                           }
                         } else {
@@ -112,7 +124,7 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                         }
                       } else {
                         print("No square selected");
-                      } 
+                      }
                     },
                     child: Text('$index'),
                   );
