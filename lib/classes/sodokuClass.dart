@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 class Sudoku {
   late List<List<int>> board;
   late List<List<bool>> lockedSquares;
-  late String solutionLocation;
 
   Sudoku() {
     board = List.generate(9, (i) => List.generate(9, (j) => (0)));
@@ -27,7 +26,6 @@ class Sudoku {
       }
     }
 
-    solutionLocation = 'assets/boards/${boardName}Solution.csv';
     return true;
   }
 
