@@ -93,9 +93,8 @@ class NewGamePage extends StatelessWidget {
   }
 
   void _loadGame(BuildContext context, Difficulty difficulty) async {
-    // Mark the method as async
-    // TODO add more boards so difficulty actuallly matters...
-    String boardName = "easy1";
+    String boardName = difficulty.name.toLowerCase();
+    print(boardName);
 
     Sudoku board = Sudoku();
 
