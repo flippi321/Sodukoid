@@ -23,6 +23,7 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
         }
       }
     }
+    selectedSquare = null;
     setState(() {}); // Show changes
   }
 
@@ -33,17 +34,17 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
       barrierDismissible: true, // user can tap outside the dialog to dismiss
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Clear the board?'),
-          content: Text('Do you want to clear all non-locked values?'),
+          title: const Text('Clear the board?'),
+          content: const Text('Are you sure you want to remove all your values on the board?'),
           actions: <Widget>[
             TextButton(
-              child: Text('No'),
+              child: const Text('No'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Yes'),
+              child: const Text('Yes'),
               onPressed: () {
                 _clearBoard();
                 Navigator.of(context).pop();
@@ -74,7 +75,7 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
             child: IconButton(
-              icon: const Icon(Icons.close, color: Colors.black),
+              icon: const Icon(Icons.refresh, color: Colors.black),
               onPressed: _showClearConfirmationDialog,
             ),
           ),
