@@ -13,6 +13,7 @@ class SudokuBoardPage extends StatefulWidget {
 
 class SudokuBoardPageState extends State<SudokuBoardPage> {
   List<int>? selectedSquare;
+  bool hints = false;
 
   // Method to clear the board
   void _clearBoard() {
@@ -35,7 +36,8 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Clear the board?'),
-          content: const Text('Are you sure you want to remove all your values on the board?'),
+          content: const Text(
+              'Are you sure you want to remove all your values on the board?'),
           actions: <Widget>[
             TextButton(
               child: const Text('No'),
@@ -92,65 +94,107 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
         child: Column(
           children: [
             const SizedBox(
-              height: 50,
+              height: 100,
             ),
             Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 9,
-                ),
-                itemBuilder: (BuildContext context, int index) {
-                  int row = index ~/ 9;
-                  int col = index % 9;
-                  int value = widget.board.getValue(row, col);
-                  bool isLocked = widget.board.lockedSquares[row][col];
-
-                  Color borderColor = Colors.black; // bottom border
-                  Color? cellColor = isLocked ? Colors.grey[300] : Colors.white;
-                  Color textColor = Colors.black; // default text color
-
-                  if (!widget.board.isValidPosition(row, col, value) &&
-                      !isLocked) {
-                    textColor = Colors
-                        .red; // Change text color to red for invalid squares
-                  }
-
-                  // The selected square is blue
-                  if (selectedSquare != null &&
-                      !isLocked &&
-                      selectedSquare![0] == row &&
-                      selectedSquare![1] == col) {
-                    cellColor = Colors.blue.withOpacity(0.75);
-                  }
-
-                  return Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        (col % 3 == 0) ? 2.0 : 0.5,
-                        (row % 3 == 0) ? 2.0 : 0.5,
-                        (col % 3 == 2) ? 2.0 : 0.5,
-                        (row % 3 == 2) ? 2.0 : 0.5),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedSquare = [row, col];
-                        });
-                        print('Square pressed: $selectedSquare');
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: cellColor,
-                          border: Border.all(color: borderColor),
-                        ),
-                        child: Text(
-                          value == 0 ? '' : value.toString(),
-                          style: TextStyle(fontSize: 20.0, color: textColor),
-                        ),
-                      ),
+              child: Stack(
+                children: [
+                  GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 9,
                     ),
-                  );
-                },
-                itemCount: 81,
+                    itemBuilder: (BuildContext context, int index) {
+                      int row = index ~/ 9;
+                      int col = index % 9;
+                      int value = widget.board.getValue(row, col);
+                      bool isLocked = widget.board.lockedSquares[row][col];
+
+                      Color borderColor = Colors.black; // bottom border
+                      Color? cellColor =
+                          isLocked ? Colors.grey[300] : Colors.white;
+                      Color textColor = Colors.black; // default text color
+
+                      if (!widget.board.isValidPosition(row, col, value) &&
+                          !isLocked &&
+                          hints) {
+                        textColor = Colors
+                            .red; // Change text color to red for invalid squares
+                      }
+
+                      // The selected square is blue
+                      if (selectedSquare != null &&
+                          !isLocked &&
+                          selectedSquare![0] == row &&
+                          selectedSquare![1] == col) {
+                        cellColor = Colors.blue.withOpacity(0.75);
+                      }
+
+                      return Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            (col % 3 == 0) ? 2.0 : 0.5,
+                            (row % 3 == 0) ? 2.0 : 0.5,
+                            (col % 3 == 2) ? 2.0 : 0.5,
+                            (row % 3 == 2) ? 2.0 : 0.5),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedSquare = [row, col];
+                            });
+                            print('Square pressed: $selectedSquare');
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: cellColor,
+                              border: Border.all(color: borderColor),
+                            ),
+                            child: Text(
+                              value == 0 ? '' : value.toString(),
+                              style:
+                                  TextStyle(fontSize: 20.0, color: textColor),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    itemCount: 81,
+                  ),
+                  Positioned(
+                    top: 50,
+                    right: 10,
+                    child: Row(
+                      children: [
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.yellow),
+                          ),
+                          onPressed: () {},
+                          child: const Icon(Icons.color_lens),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              hints ? Colors.yellow : Colors.white,
+                            ),
+                          ),
+                          onPressed: () {
+                            // Update board
+                            setState(() {
+                              // Turn on or off hints
+                              hints = !hints;
+                            });
+                          },
+                          child: const Icon(Icons.help),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
             Padding(
@@ -177,7 +221,7 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                         print("No square selected");
                       }
                     },
-                    child: index == 0 ?  const Text('X') : Text('$index'),
+                    child: index == 0 ? const Text('X') : Text('$index'),
                   );
                 }),
               ),
