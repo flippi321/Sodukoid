@@ -14,6 +14,7 @@ class SudokuBoardPage extends StatefulWidget {
 class SudokuBoardPageState extends State<SudokuBoardPage> {
   List<int>? selectedSquare;
   bool hints = false;
+  Color? selectedSquareColor;
 
   // Method to clear the board
   void _clearBoard() {
@@ -26,6 +27,7 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
     }
     selectedSquare = null;
     hints = false;
+    widget.board.clearAllColors();
     setState(() {}); // Show changes
   }
 
@@ -111,10 +113,9 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                       int value = widget.board.getValue(row, col);
                       bool isLocked = widget.board.lockedSquares[row][col];
 
-                      Color borderColor = Colors.black; // bottom border
-                      Color? cellColor =
-                          isLocked ? Colors.grey[300] : Colors.white;
-                      Color textColor = Colors.black; // default text color
+                      Color borderColor = Colors.black;
+                      Color cellColor = widget.board.coloredSquares[row][col];
+                      Color textColor = Colors.black;
 
                       if (!widget.board.isValidPosition(row, col, value) &&
                           !isLocked &&
@@ -171,7 +172,11 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                             backgroundColor:
                                 MaterialStateProperty.all(Colors.white),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            if(selectedSquare != null){
+                              widget.board.clearColor(selectedSquare![0], selectedSquare![1]);
+                            }
+                          },
                           child: const Icon(Icons.colorize_rounded),
                         ),
                         const SizedBox(
@@ -182,7 +187,11 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                             backgroundColor:
                                 MaterialStateProperty.all(Colors.amberAccent),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            if(selectedSquare != null){
+                              widget.board.setColor(selectedSquare![0], selectedSquare![1], Colors.amberAccent);
+                            }
+                          },
                           child: const Icon(Icons.colorize_rounded),
                         ),
                         const SizedBox(
@@ -193,7 +202,11 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                             backgroundColor:
                                 MaterialStateProperty.all(Colors.lightGreenAccent),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            if(selectedSquare != null){
+                              widget.board.setColor(selectedSquare![0], selectedSquare![1], Colors.lightGreenAccent);
+                            }
+                          },
                           child: const Icon(Icons.colorize_rounded),
                         ),
                         const SizedBox(
