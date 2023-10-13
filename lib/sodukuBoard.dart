@@ -177,7 +177,7 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                         print("No square selected");
                       }
                     },
-                    child: Text('$index'),
+                    child: index == 0 ?  const Text('X') : Text('$index'),
                   );
                 }),
               ),
