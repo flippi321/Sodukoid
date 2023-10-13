@@ -1,4 +1,5 @@
 import 'package:csv/csv.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Sudoku {
@@ -24,7 +25,11 @@ class Sudoku {
         board[i][j] = int.parse(rows[i][j].toString());
 
         // If the board value is non-zero, lock the square
-        lockedSquares[i][j] = board[i][j] !=0;
+        if(board[i][j] !=0){
+          lockedSquares[i][j] = true;
+          coloredSquares[i][j] = Colors.white38;
+        }
+        
       }
     }
 
