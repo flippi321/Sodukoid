@@ -80,7 +80,7 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                           border: Border.all(color: borderColor),
                         ),
                         child: Text(
-                          value == -1 ? '' : value.toString(),
+                          value == 0 ? '' : value.toString(),
                           style: const TextStyle(fontSize: 20.0),
                         ),
                       ),
@@ -102,15 +102,17 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                       if(selectedSquare!=null && selectedSquare?[0] != null && selectedSquare?[1] != null){
                         if (widget.board.setValue(selectedSquare![0], selectedSquare![1], index)){
                           print("Value at $selectedSquare cahnged to $index");
+                          // Update state to show our changes in the board
+                          setState(() {});
+                          if(widget.board.isFinished()){
+                            print("Finished");
+                          }
                         } else {
                           print("Could not change the value");
                         }
                       } else {
                         print("No square selected");
-                      }
-
-                      // Update state to show our changes in the board
-                      setState(() {});
+                      } 
                     },
                     child: Text('$index'),
                   );
