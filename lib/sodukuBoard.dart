@@ -14,6 +14,47 @@ class SudokuBoardPage extends StatefulWidget {
 class SudokuBoardPageState extends State<SudokuBoardPage> {
   List<int>? selectedSquare;
 
+  // Method to clear the board
+  void _clearBoard() {
+    for (int i = 0; i < 9; i++) {
+      for (int j = 0; j < 9; j++) {
+        if (!widget.board.lockedSquares[i][j]) {
+          widget.board.setValue(i, j, 0);
+        }
+      }
+    }
+    setState(() {}); // Show changes
+  }
+
+  // Open a confirmation Dialog making sure that the user wants to clear the board
+  Future<void> _showClearConfirmationDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user can tap outside the dialog to dismiss
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Clear the board?'),
+          content: Text('Do you want to clear all non-locked values?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Yes'),
+              onPressed: () {
+                _clearBoard();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +70,15 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
             ),
           ),
         ),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: IconButton(
+              icon: const Icon(Icons.close, color: Colors.black),
+              onPressed: _showClearConfirmationDialog,
+            ),
+          ),
+        ],
       ),
       body: Container(
         decoration: const BoxDecoration(
