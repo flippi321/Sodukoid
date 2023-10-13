@@ -1,16 +1,13 @@
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:soduku_app/classes/squareClass.dart';
 
 class Sudoku {
-  late List<List<int>> board;
-  late List<List<bool>> lockedSquares;
-  late List<List<Color>> coloredSquares;
+  late List<List<SodukuSquare>> board;
 
   Sudoku() {
-    board = List.generate(9, (i) => List.generate(9, (j) => (0)));
-    lockedSquares = List.generate(9, (i) => List.generate(9, (j) => false));
-    coloredSquares = List.generate(9, (i) => List.generate(9, (j) => Colors.white));
+    board = List.generate(9, (i) => List.generate(9, (j) => (SodukuSquare(0, false, Colors.white))));
   }
 
   Future<bool> loadBoard(String boardName) async {
@@ -22,12 +19,12 @@ class Sudoku {
 
     for (int i = 0; i < 9; i++) {
       for (int j = 0; j < 9; j++) {
-        board[i][j] = int.parse(rows[i][j].toString());
+        board[i][j].value = int.parse(rows[i][j].toString());
 
         // If the board value is non-zero, lock the square
         if(board[i][j] !=0){
-          lockedSquares[i][j] = true;
-          coloredSquares[i][j] = Colors.grey[400]!;
+          board[i][j].isLocked = true;
+          board[i][j].backgroundColor = Colors.grey[400]!;
         }
       }
     }
@@ -38,7 +35,7 @@ class Sudoku {
   bool isFinished() {
   for (int row = 0; row < 9; row++) {
     for (int col = 0; col < 9; col++) {
-      int value = board[row][col];
+      int value = board[row][col].value;
       // Check if the square is empty or not a valid move
       if (value == 0 || !isValidPosition(row, col, value)) {
         return false;
@@ -50,12 +47,12 @@ class Sudoku {
 
 
   int getValue(int row, int col) {
-    return board[row][col];
+    return board[row][col].value;
   }
 
   bool setValue(int row, int col, int value) {
     if(isValidMove(row, col, value)){
-      board[row][col] = value;
+      board[row][col].value = value;
       return true;
     }
     return false;
@@ -63,8 +60,8 @@ class Sudoku {
 
   bool setColor(int row, int col, Color color) {
     // As long as the position isn't locked we can modify it's background
-    if(!lockedSquares[row][col]){
-      coloredSquares[row][col] = color;
+    if(!board[row][col].isLocked){
+      board[row][col].backgroundColor = color;
       return true;
     }
     return false;
@@ -77,8 +74,8 @@ class Sudoku {
   bool clearAllColors() {
   for (int i = 0; i < 9; i++) {
     for (int j = 0; j < 9; j++) {
-      if (!lockedSquares[i][j]) { // If the square is not locked
-        coloredSquares[i][j] = const Color.fromRGBO(255, 255, 255, 1.0); // set to white
+      if (!board[i][j].isLocked) { // If the square is not locked
+        board[i][j].backgroundColor = const Color.fromRGBO(255, 255, 255, 1.0); // set to white
       }
     }
   }
@@ -114,7 +111,7 @@ class Sudoku {
       return false;
     }
     // If the given value is locked, we cannot overwrite the value
-    if(lockedSquares[row][col]){
+    if(board[row][col].isLocked){
       return false;
     }
 
