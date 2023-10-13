@@ -20,7 +20,7 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
   void _clearBoard() {
     for (int i = 0; i < 9; i++) {
       for (int j = 0; j < 9; j++) {
-        if (!widget.board.lockedSquares[i][j]) {
+        if (!widget.board.board[i][j].isLocked) {
           widget.board.setValue(i, j, 0);
         }
       }
@@ -111,10 +111,10 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                       int row = index ~/ 9;
                       int col = index % 9;
                       int value = widget.board.getValue(row, col);
-                      bool isLocked = widget.board.lockedSquares[row][col];
+                      bool isLocked = widget.board.board[row][col].isLocked;
 
                       Color borderColor = Colors.black;
-                      Color cellColor = widget.board.coloredSquares[row][col];
+                      Color cellColor = widget.board.board[row][col].backgroundColor;
                       Color textColor = Colors.black;
 
                       if (!widget.board.isValidPosition(row, col, value) &&
