@@ -69,7 +69,7 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                       !isLocked &&
                       selectedSquare![0] == row &&
                       selectedSquare![1] == col) {
-                    cellColor = Colors.blueAccent;
+                    cellColor = Colors.blue.withOpacity(0.75);
                   }
 
                   return Padding(
