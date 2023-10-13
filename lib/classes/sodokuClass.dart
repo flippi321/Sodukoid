@@ -7,7 +7,7 @@ class Sudoku {
   late String solutionLocation;
 
   Sudoku() {
-    board = List.generate(9, (i) => List.generate(9, (j) => (-1)));
+    board = List.generate(9, (i) => List.generate(9, (j) => (0)));
     lockedSquares = List.generate(9, (i) => List.generate(9, (j) => false));
   }
 
@@ -23,7 +23,7 @@ class Sudoku {
         board[i][j] = int.parse(rows[i][j].toString());
 
         // If the board value is non-zero, lock the square
-        lockedSquares[i][j] = board[i][j] != -1;
+        lockedSquares[i][j] = board[i][j] !=0;
       }
     }
 
@@ -36,7 +36,7 @@ class Sudoku {
     for (int col = 0; col < 9; col++) {
       int value = board[row][col];
       // Check if the square is empty or not a valid move
-      if (value == -1 || !isValidMove(row, col, value)) {
+      if (value == 0 || !isValidMove(row, col, value)) {
         return false;
       }
     }
