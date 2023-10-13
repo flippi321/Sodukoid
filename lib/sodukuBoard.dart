@@ -25,6 +25,8 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
         }
       }
     }
+
+    // Reset all values to default
     selectedSquare = null;
     hints = false;
     widget.board.clearAllColors();
