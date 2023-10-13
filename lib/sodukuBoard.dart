@@ -25,6 +25,7 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
       }
     }
     selectedSquare = null;
+    hints = false;
     setState(() {}); // Show changes
   }
 
@@ -162,24 +163,46 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                   ),
                   Positioned(
                     top: 50,
-                    right: 10,
+                    right: 15,
                     child: Row(
                       children: [
                         ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.yellow),
+                                MaterialStateProperty.all(Colors.white),
                           ),
                           onPressed: () {},
-                          child: const Icon(Icons.color_lens),
+                          child: const Icon(Icons.colorize_rounded),
                         ),
                         const SizedBox(
-                          width: 10,
+                          width: 25,
+                        ),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.amberAccent),
+                          ),
+                          onPressed: () {},
+                          child: const Icon(Icons.colorize_rounded),
+                        ),
+                        const SizedBox(
+                          width: 25,
+                        ),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.lightGreenAccent),
+                          ),
+                          onPressed: () {},
+                          child: const Icon(Icons.colorize_rounded),
+                        ),
+                        const SizedBox(
+                          width: 25,
                         ),
                         ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                              hints ? Colors.yellow : Colors.white,
+                              hints ? Colors.redAccent : Colors.white,
                             ),
                           ),
                           onPressed: () {
@@ -189,7 +212,7 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                               hints = !hints;
                             });
                           },
-                          child: const Icon(Icons.help),
+                          child: Icon(hints ? Icons.lightbulb : Icons.lightbulb_outlined),
                         ),
                       ],
                     ),
