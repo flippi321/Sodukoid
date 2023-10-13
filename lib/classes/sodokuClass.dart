@@ -29,7 +29,6 @@ class Sudoku {
           lockedSquares[i][j] = true;
           coloredSquares[i][j] = Colors.white38;
         }
-        
       }
     }
 
@@ -60,6 +59,19 @@ class Sudoku {
       return true;
     }
     return false;
+  }
+
+  bool setColor(int row, int col, Color color) {
+    // As long as the position isn't locked we can modify it's background
+    if(!lockedSquares[row][col]){
+      coloredSquares[row][col] = color;
+      return true;
+    }
+    return false;
+  }
+
+  bool clearColor(int row, int col) {
+    return setColor(row, col, Colors.white);
   }
 
   bool isValidPosition(int row, int col, int value){
