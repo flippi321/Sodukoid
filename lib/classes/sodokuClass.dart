@@ -4,10 +4,12 @@ import 'package:flutter/services.dart';
 class Sudoku {
   late List<List<int>> board;
   late List<List<bool>> lockedSquares;
+  late List<List<Color>> coloredSquares;
 
   Sudoku() {
     board = List.generate(9, (i) => List.generate(9, (j) => (0)));
     lockedSquares = List.generate(9, (i) => List.generate(9, (j) => false));
+    coloredSquares = List.generate(9, (i) => List.generate(9, (j) => const Color.fromRGBO(255, 255, 255, 1.0)));
   }
 
   Future<bool> loadBoard(String boardName) async {
