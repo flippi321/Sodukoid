@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'classes/sodokuClass.dart';
 
 class CreateSudokuBoardPage extends StatefulWidget {
-  final Sudoku board;
-
-  const CreateSudokuBoardPage({super.key, required this.board});
+  const CreateSudokuBoardPage({super.key});
 
   @override
   CreateSudokuBoardPageState createState() => CreateSudokuBoardPageState();
 }
 
 class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
+  Sudoku board = Sudoku();
   List<int>? selectedSquare;
   bool hints = false;
   Color? selectedSquareColor;
@@ -20,8 +19,8 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
   void _clearBoard() {
     for (int i = 0; i < 9; i++) {
       for (int j = 0; j < 9; j++) {
-        if (!widget.board.board[i][j].isLocked) {
-          widget.board.setValue(i, j, 0);
+        if (board.board[i][j].isLocked) {
+          board.setValue(i, j, 0);
         }
       }
     }
@@ -29,7 +28,7 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
     // Reset all values to default
     selectedSquare = null;
     hints = false;
-    widget.board.clearAllColors();
+    board.clearAllColors();
     setState(() {}); // Show changes
   }
 
@@ -112,14 +111,14 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                     itemBuilder: (BuildContext context, int index) {
                       int row = index ~/ 9;
                       int col = index % 9;
-                      int value = widget.board.getValue(row, col);
-                      bool isLocked = widget.board.board[row][col].isLocked;
+                      int value = board.getValue(row, col);
+                      bool isLocked = board.board[row][col].isLocked;
 
                       Color borderColor = Colors.black;
-                      Color cellColor = widget.board.board[row][col].backgroundColor;
+                      Color cellColor = board.board[row][col].backgroundColor;
                       Color textColor = Colors.black;
 
-                      if (!widget.board.isValidPosition(row, col, value) &&
+                      if (board.isValidPosition(row, col, value) &&
                           !isLocked &&
                           hints) {
                         textColor = Colors.red; // Change text color to red for invalid squares
@@ -175,7 +174,7 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                           ),
                           onPressed: () {
                             if(selectedSquare != null){
-                              widget.board.clearColor(selectedSquare![0], selectedSquare![1]);
+                              board.clearColor(selectedSquare![0], selectedSquare![1]);
                             }
                           },
                           child: const Icon(Icons.colorize_rounded),
@@ -190,7 +189,7 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                           ),
                           onPressed: () {
                             if(selectedSquare != null){
-                              widget.board.setColor(selectedSquare![0], selectedSquare![1], Colors.amberAccent);
+                              board.setColor(selectedSquare![0], selectedSquare![1], Colors.amberAccent);
                             }
                           },
                           child: const Icon(Icons.colorize_rounded),
@@ -205,7 +204,7 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                           ),
                           onPressed: () {
                             if(selectedSquare != null){
-                              widget.board.setColor(selectedSquare![0], selectedSquare![1], Colors.lightGreenAccent);
+                              board.setColor(selectedSquare![0], selectedSquare![1], Colors.lightGreenAccent);
                             }
                           },
                           child: const Icon(Icons.colorize_rounded),
@@ -245,10 +244,10 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                       if (selectedSquare != null &&
                           selectedSquare?[0] != null &&
                           selectedSquare?[1] != null) {
-                        if (widget.board.setValue(
+                        if (board.setValue(
                             selectedSquare![0], selectedSquare![1], index)) {
                           setState(() {});
-                          if (widget.board.isFinished()) {
+                          if (board.isFinished()) {
                             print("Finished");
                           }
                         } else {
