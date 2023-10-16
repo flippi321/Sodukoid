@@ -56,6 +56,11 @@ class Sudoku {
     return true;
   }
 
+  Future<bool> saveBoard(String difficulty) async {
+    // Todo implement method to save a board
+    return true;
+  }
+
   bool isFinished() {
     for (int row = 0; row < 9; row++) {
       for (int col = 0; col < 9; col++) {
