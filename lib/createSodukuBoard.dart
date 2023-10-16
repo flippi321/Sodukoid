@@ -12,8 +12,6 @@ class CreateSudokuBoardPage extends StatefulWidget {
 class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
   Sudoku board = Sudoku();
   List<int>? selectedSquare;
-  bool hints = false;
-  Color? selectedSquareColor;
 
   // Method to clear the board
   void _clearBoard() {
@@ -27,7 +25,6 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
 
     // Reset all values to default
     selectedSquare = null;
-    hints = false;
     board.clearAllColors();
     setState(() {}); // Show changes
   }
@@ -101,142 +98,61 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
               height: 100,
             ),
             Expanded(
-              child: Stack(
-                children: [
-                  GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 9,
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 9,
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  int row = index ~/ 9;
+                  int col = index % 9;
+                  int value = board.getValue(row, col);
+                  bool isLocked = board.board[row][col].isLocked;
+
+                  Color borderColor = Colors.black;
+                  Color cellColor = board.board[row][col].backgroundColor;
+                  Color textColor = Colors.black;
+
+                  if (!board.isValidPosition(row, col, value)) {
+                    textColor = Colors
+                        .red; // Change text color to red for invalid squares
+                  }
+
+                  // The selected square is blue
+                  if (selectedSquare != null &&
+                      !isLocked &&
+                      selectedSquare![0] == row &&
+                      selectedSquare![1] == col) {
+                    cellColor = Colors.blue.withOpacity(0.75);
+                  }
+
+                  return Padding(
+                    padding: EdgeInsets.fromLTRB(
+                        (col % 3 == 0) ? 2.0 : 0.5,
+                        (row % 3 == 0) ? 2.0 : 0.5,
+                        (col % 3 == 2) ? 2.0 : 0.5,
+                        (row % 3 == 2) ? 2.0 : 0.5),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedSquare = [row, col];
+                        });
+                        print('Square pressed: $selectedSquare');
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: cellColor,
+                          border: Border.all(color: borderColor),
+                        ),
+                        child: Text(
+                          value == 0 ? '' : value.toString(),
+                          style: TextStyle(fontSize: 20.0, color: textColor),
+                        ),
+                      ),
                     ),
-                    itemBuilder: (BuildContext context, int index) {
-                      int row = index ~/ 9;
-                      int col = index % 9;
-                      int value = board.getValue(row, col);
-                      bool isLocked = board.board[row][col].isLocked;
-
-                      Color borderColor = Colors.black;
-                      Color cellColor = board.board[row][col].backgroundColor;
-                      Color textColor = Colors.black;
-
-                      if (board.isValidPosition(row, col, value) &&
-                          !isLocked &&
-                          hints) {
-                        textColor = Colors
-                            .red; // Change text color to red for invalid squares
-                      }
-
-                      // The selected square is blue
-                      if (selectedSquare != null &&
-                          !isLocked &&
-                          selectedSquare![0] == row &&
-                          selectedSquare![1] == col) {
-                        cellColor = Colors.blue.withOpacity(0.75);
-                      }
-
-                      return Padding(
-                        padding: EdgeInsets.fromLTRB(
-                            (col % 3 == 0) ? 2.0 : 0.5,
-                            (row % 3 == 0) ? 2.0 : 0.5,
-                            (col % 3 == 2) ? 2.0 : 0.5,
-                            (row % 3 == 2) ? 2.0 : 0.5),
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedSquare = [row, col];
-                            });
-                            print('Square pressed: $selectedSquare');
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: cellColor,
-                              border: Border.all(color: borderColor),
-                            ),
-                            child: Text(
-                              value == 0 ? '' : value.toString(),
-                              style:
-                                  TextStyle(fontSize: 20.0, color: textColor),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                    itemCount: 81,
-                  ),
-                  Positioned(
-                    top: 50,
-                    right: 15,
-                    child: Row(
-                      children: [
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.white),
-                          ),
-                          onPressed: () {
-                            if (selectedSquare != null) {
-                              board.clearColor(
-                                  selectedSquare![0], selectedSquare![1]);
-                            }
-                          },
-                          child: const Icon(Icons.colorize_rounded),
-                        ),
-                        const SizedBox(
-                          width: 25,
-                        ),
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.amberAccent),
-                          ),
-                          onPressed: () {
-                            if (selectedSquare != null) {
-                              board.setColor(selectedSquare![0],
-                                  selectedSquare![1], Colors.amberAccent);
-                            }
-                          },
-                          child: const Icon(Icons.colorize_rounded),
-                        ),
-                        const SizedBox(
-                          width: 25,
-                        ),
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                Colors.lightGreenAccent),
-                          ),
-                          onPressed: () {
-                            if (selectedSquare != null) {
-                              board.setColor(selectedSquare![0],
-                                  selectedSquare![1], Colors.lightGreenAccent);
-                            }
-                          },
-                          child: const Icon(Icons.colorize_rounded),
-                        ),
-                        const SizedBox(
-                          width: 25,
-                        ),
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                              hints ? Colors.redAccent : Colors.white,
-                            ),
-                          ),
-                          onPressed: () {
-                            // Update board
-                            setState(() {
-                              // Turn on or off hints
-                              hints = !hints;
-                            });
-                          },
-                          child: Icon(hints
-                              ? Icons.lightbulb
-                              : Icons.lightbulb_outlined),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  );
+                },
+                itemCount: 81,
               ),
             ),
             Padding(
@@ -252,6 +168,13 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                           selectedSquare?[1] != null) {
                         if (board.setValue(
                             selectedSquare![0], selectedSquare![1], index)) {
+                          if(index != 0){
+                            board.setColor(selectedSquare![0], selectedSquare![1],
+                              Colors.grey);
+                          } else {
+                            board.setColor(selectedSquare![0], selectedSquare![1],
+                              Colors.white);
+                          }
                           setState(() {});
                           if (board.isFinished()) {
                             print("Finished");
