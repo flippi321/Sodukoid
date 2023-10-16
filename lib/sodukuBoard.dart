@@ -122,8 +122,7 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                       if (!widget.board.isValidPosition(row, col, value) &&
                           !isLocked &&
                           hints) {
-                        textColor = Colors
-                            .red; // Change text color to red for invalid squares
+                        textColor = Colors.red; // Change text color to red for invalid squares
                       }
 
                       // The selected square is blue
