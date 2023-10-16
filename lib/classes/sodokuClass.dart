@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,14 @@ class Sudoku {
         .toList();
 
     return boardPaths;
+  }
+
+  Future<bool> loadRandomBoard(String difficulty) async {
+    List<String> paths = await _getBoardPaths(difficulty);
+    if (paths.isEmpty) return false;
+    Random rnd = Random();
+    String selectedPath = paths[rnd.nextInt(paths.length)];
+    return await loadBoard(selectedPath);
   }
 
   Future<bool> loadBoard(String boardName) async {
