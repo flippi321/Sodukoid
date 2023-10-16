@@ -87,8 +87,8 @@ class Sudoku {
     // Parse every square sharing the same row or column
       for (int i = 0; i < 9; i++){
         // If the square shares the same value, this move is invalid
-        if((board[row][i] == value && i != col) || (board[i][col] == value && i != row)){
-          return false;
+        if((board[row][i].value == value && i != col) || (board[i][col].value == value && i != row)){
+            return false;
         }
       }
 
