@@ -116,13 +116,15 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                       bool isLocked = widget.board.board[row][col].isLocked;
 
                       Color borderColor = Colors.black;
-                      Color cellColor = widget.board.board[row][col].backgroundColor;
+                      Color cellColor =
+                          widget.board.board[row][col].backgroundColor;
                       Color textColor = Colors.black;
 
                       if (!widget.board.isValidPosition(row, col, value) &&
                           !isLocked &&
                           hints) {
-                        textColor = Colors.red; // Change text color to red for invalid squares
+                        textColor = Colors
+                            .red; // Change text color to red for invalid squares
                       }
 
                       // The selected square is blue
@@ -174,8 +176,9 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                                 MaterialStateProperty.all(Colors.white),
                           ),
                           onPressed: () {
-                            if(selectedSquare != null){
-                              widget.board.clearColor(selectedSquare![0], selectedSquare![1]);
+                            if (selectedSquare != null) {
+                              widget.board.clearColor(
+                                  selectedSquare![0], selectedSquare![1]);
                             }
                           },
                           child: const Icon(Icons.colorize_rounded),
@@ -189,8 +192,9 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                                 MaterialStateProperty.all(Colors.amberAccent),
                           ),
                           onPressed: () {
-                            if(selectedSquare != null){
-                              widget.board.setColor(selectedSquare![0], selectedSquare![1], Colors.amberAccent);
+                            if (selectedSquare != null) {
+                              widget.board.setColor(selectedSquare![0],
+                                  selectedSquare![1], Colors.amberAccent);
                             }
                           },
                           child: const Icon(Icons.colorize_rounded),
@@ -200,12 +204,13 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                         ),
                         ElevatedButton(
                           style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.lightGreenAccent),
+                            backgroundColor: MaterialStateProperty.all(
+                                Colors.lightGreenAccent),
                           ),
                           onPressed: () {
-                            if(selectedSquare != null){
-                              widget.board.setColor(selectedSquare![0], selectedSquare![1], Colors.lightGreenAccent);
+                            if (selectedSquare != null) {
+                              widget.board.setColor(selectedSquare![0],
+                                  selectedSquare![1], Colors.lightGreenAccent);
                             }
                           },
                           child: const Icon(Icons.colorize_rounded),
@@ -226,7 +231,9 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                               hints = !hints;
                             });
                           },
-                          child: Icon(hints ? Icons.lightbulb : Icons.lightbulb_outlined),
+                          child: Icon(hints
+                              ? Icons.lightbulb
+                              : Icons.lightbulb_outlined),
                         ),
                       ],
                     ),
@@ -252,10 +259,14 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                             print("Finished");
                           }
                         } else {
-                          print("Could not change the value");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Could not change the value')));
                         }
                       } else {
-                        print("No square selected");
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('No square selected')));
                       }
                     },
                     child: index == 0 ? const Text('X') : Text('$index'),

@@ -113,8 +113,7 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                   Color textColor = Colors.black;
 
                   if (!board.isValidPosition(row, col, value)) {
-                    textColor = Colors
-                        .red; // Change text color to red for invalid squares
+                    textColor = Colors.red;
                   }
 
                   // The selected square is blue
@@ -136,7 +135,6 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                         setState(() {
                           selectedSquare = [row, col];
                         });
-                        print('Square pressed: $selectedSquare');
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -168,22 +166,24 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                           selectedSquare?[1] != null) {
                         if (board.setValue(
                             selectedSquare![0], selectedSquare![1], index)) {
-                          if(index != 0){
-                            board.setColor(selectedSquare![0], selectedSquare![1],
-                              Colors.grey);
+                          if (index != 0) {
+                            board.setColor(selectedSquare![0],
+                                selectedSquare![1], Colors.grey);
                           } else {
-                            board.setColor(selectedSquare![0], selectedSquare![1],
-                              Colors.white);
+                            board.setColor(selectedSquare![0],
+                                selectedSquare![1], Colors.white);
                           }
                           setState(() {});
                           if (board.isFinished()) {
-                            print("Finished");
+                            // TODO implement Save function
                           }
                         } else {
-                          print("Could not change the value");
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              content: Text('Could not change the value')));
                         }
                       } else {
-                        print("No square selected");
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('No square selected')));
                       }
                     },
                     child: index == 0 ? const Text('X') : Text('$index'),
