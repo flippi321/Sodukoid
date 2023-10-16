@@ -97,7 +97,7 @@ class Sudoku {
       int startCol = col - (col % 3);
       for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-          if (board[startRow + i][startCol + j] == value && (startRow + i != row || startCol + j != col)) {
+          if (board[startRow + i][startCol + j].value == value && (startRow + i != row || startCol + j != col)) {
             return false;
           }
         }
