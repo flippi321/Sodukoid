@@ -121,7 +121,8 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                       if (board.isValidPosition(row, col, value) &&
                           !isLocked &&
                           hints) {
-                        textColor = Colors.red; // Change text color to red for invalid squares
+                        textColor = Colors
+                            .red; // Change text color to red for invalid squares
                       }
 
                       // The selected square is blue
@@ -173,8 +174,9 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                                 MaterialStateProperty.all(Colors.white),
                           ),
                           onPressed: () {
-                            if(selectedSquare != null){
-                              board.clearColor(selectedSquare![0], selectedSquare![1]);
+                            if (selectedSquare != null) {
+                              board.clearColor(
+                                  selectedSquare![0], selectedSquare![1]);
                             }
                           },
                           child: const Icon(Icons.colorize_rounded),
@@ -188,8 +190,9 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                                 MaterialStateProperty.all(Colors.amberAccent),
                           ),
                           onPressed: () {
-                            if(selectedSquare != null){
-                              board.setColor(selectedSquare![0], selectedSquare![1], Colors.amberAccent);
+                            if (selectedSquare != null) {
+                              board.setColor(selectedSquare![0],
+                                  selectedSquare![1], Colors.amberAccent);
                             }
                           },
                           child: const Icon(Icons.colorize_rounded),
@@ -199,12 +202,13 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                         ),
                         ElevatedButton(
                           style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.lightGreenAccent),
+                            backgroundColor: MaterialStateProperty.all(
+                                Colors.lightGreenAccent),
                           ),
                           onPressed: () {
-                            if(selectedSquare != null){
-                              board.setColor(selectedSquare![0], selectedSquare![1], Colors.lightGreenAccent);
+                            if (selectedSquare != null) {
+                              board.setColor(selectedSquare![0],
+                                  selectedSquare![1], Colors.lightGreenAccent);
                             }
                           },
                           child: const Icon(Icons.colorize_rounded),
@@ -225,7 +229,9 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                               hints = !hints;
                             });
                           },
-                          child: Icon(hints ? Icons.lightbulb : Icons.lightbulb_outlined),
+                          child: Icon(hints
+                              ? Icons.lightbulb
+                              : Icons.lightbulb_outlined),
                         ),
                       ],
                     ),
