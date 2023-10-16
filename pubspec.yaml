@@ -61,8 +61,10 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/boards/
-
+    - assets/boards/easy/
+    - assets/boards/medium/
+    - assets/boards/hard/
+    
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
