@@ -146,7 +146,6 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                             setState(() {
                               selectedSquare = [row, col];
                             });
-                            print('Square pressed: $selectedSquare');
                           },
                           child: Container(
                             alignment: Alignment.center,
