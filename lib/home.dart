@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soduku_app/createSodukuBoard.dart';
 import 'package:soduku_app/new_game.dart';
 
 class SudokuHomePage extends StatelessWidget {
@@ -42,14 +43,34 @@ class SudokuHomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const NewGamePage()),
+                    MaterialPageRoute(
+                        builder: (context) => const NewGamePage()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black, backgroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                  foregroundColor: Colors.black,
+                  backgroundColor: Colors.white,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                 ),
                 child: const Text('New Game'),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CreateSudokuBoardPage()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.black,
+                  backgroundColor: Colors.white,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                ),
+                child: const Text('Create a Board'),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
