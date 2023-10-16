@@ -34,9 +34,9 @@ class Sudoku {
     return await loadBoard(selectedPath);
   }
 
-  Future<bool> loadBoard(String boardName) async {
+  Future<bool> loadBoard(String boardPath) async {
     // Load the CSV from assets/boards
-    final data = await rootBundle.loadString('assets/boards/$boardName.csv');
+    final data = await rootBundle.loadString(boardPath);
 
     // Parse the CSV string
     final List<List<dynamic>> rows = const CsvToListConverter().convert(data);
