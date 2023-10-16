@@ -112,17 +112,18 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                   Color cellColor = board.board[row][col].backgroundColor;
                   Color textColor = Colors.black;
 
-                  if (!board.isValidPosition(row, col, value)) {
-                    textColor = Colors.red;
-                  }
-
                   // The selected square is blue
                   if (selectedSquare != null &&
                       !isLocked &&
                       selectedSquare![0] == row &&
                       selectedSquare![1] == col) {
                     cellColor = Colors.blue.withOpacity(0.75);
+                    borderColor = Colors.black;
                   }
+
+                  if (!board.isValidPosition(row, col, value) && board.getValue(row, col) != 0) {
+                    cellColor = Colors.red;
+                  }                  
 
                   return Padding(
                     padding: EdgeInsets.fromLTRB(
