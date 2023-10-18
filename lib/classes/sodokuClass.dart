@@ -81,6 +81,9 @@ class Sudoku {
       List<List<String>> csvBoard = board.map((row) => row.map((square) => square.value.toString()).toList()).toList();
       String csvString = const ListToCsvConverter().convert(csvBoard);
 
+      // If the directory doesn't exist, we make it
+      await Directory('${directory.path}/boards/$difficulty/').create(recursive: true);
+
       // Write the data to the file
       File file = File(filePath);
       await file.writeAsString(csvString);
