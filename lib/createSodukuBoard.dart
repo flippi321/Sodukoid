@@ -12,8 +12,8 @@ class CreateSudokuBoardPage extends StatefulWidget {
 class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
   Sudoku board = Sudoku();
   List<int>? selectedSquare;
+  String? _selectedDifficulty;
 
-  // Method to clear the board
   void _clearBoard() {
     for (int i = 0; i < 9; i++) {
       for (int j = 0; j < 9; j++) {
@@ -22,18 +22,15 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
         }
       }
     }
-
-    // Reset all values to default
     selectedSquare = null;
     board.clearAllColors();
-    setState(() {}); // Show changes
+    setState(() {});
   }
 
-  // Open a confirmation Dialog making sure that the user wants to clear the board
   Future<void> _showClearConfirmationDialog() async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: true, // user can tap outside the dialog to dismiss
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Clear the board?'),
@@ -57,6 +54,26 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
         );
       },
     );
+  }
+
+  void _saveBoard() {
+    if (_selectedDifficulty == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please select a difficulty')));
+      return;
+    }
+    for (int i = 0; i < 9; i++) {
+      for (int j = 0; j < 9; j++) {
+        if (!board.isValidPosition(i, j, board.getValue(i, j))) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Invalid squares present. Fix them first.')));
+          return;
+        }
+      }
+    }
+    board.saveBoard(_selectedDifficulty!.toLowerCase());
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Board saved successfully')));
   }
 
   @override
@@ -97,61 +114,93 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
             const SizedBox(
               height: 100,
             ),
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 9,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                DropdownButton<String>(
+                  value: _selectedDifficulty,
+                  hint: const Text("Select Difficulty"),
+                  items: <String>['Easy', 'Medium', 'Hard']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedDifficulty = newValue;
+                    });
+                  },
                 ),
-                itemBuilder: (BuildContext context, int index) {
-                  int row = index ~/ 9;
-                  int col = index % 9;
-                  int value = board.getValue(row, col);
-                  bool isLocked = board.board[row][col].isLocked;
-
-                  Color borderColor = Colors.black;
-                  Color cellColor = board.board[row][col].backgroundColor;
-                  Color textColor = Colors.black;
-
-                  // The selected square is blue
-                  if (selectedSquare != null &&
-                      !isLocked &&
-                      selectedSquare![0] == row &&
-                      selectedSquare![1] == col) {
-                    cellColor = Colors.blue.withOpacity(0.75);
-                    borderColor = Colors.black;
-                  }
-
-                  if (!board.isValidPosition(row, col, value) && board.getValue(row, col) != 0) {
-                    cellColor = Colors.red;
-                  }                  
-
-                  return Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        (col % 3 == 0) ? 2.0 : 0.5,
-                        (row % 3 == 0) ? 2.0 : 0.5,
-                        (col % 3 == 2) ? 2.0 : 0.5,
-                        (row % 3 == 2) ? 2.0 : 0.5),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedSquare = [row, col];
-                        });
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: cellColor,
-                          border: Border.all(color: borderColor),
-                        ),
-                        child: Text(
-                          value == 0 ? '' : value.toString(),
-                          style: TextStyle(fontSize: 20.0, color: textColor),
-                        ),
-                      ),
+                const SizedBox(width: 20),
+                ElevatedButton(
+                  onPressed: _saveBoard,
+                  child: const Text("Save Board"),
+                )
+              ],
+            ),
+            Expanded(
+              child: Stack(
+                children: [
+                  GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 9,
                     ),
-                  );
-                },
-                itemCount: 81,
+                    itemBuilder: (BuildContext context, int index) {
+                      int row = index ~/ 9;
+                      int col = index % 9;
+                      int value = board.getValue(row, col);
+                      bool isLocked = board.board[row][col].isLocked;
+
+                      Color borderColor = Colors.black;
+                      Color cellColor = board.board[row][col].backgroundColor;
+                      Color textColor = Colors.black;
+
+                      if (selectedSquare != null &&
+                          !isLocked &&
+                          selectedSquare![0] == row &&
+                          selectedSquare![1] == col) {
+                        cellColor = Colors.blue.withOpacity(0.75);
+                        borderColor = Colors.black;
+                      }
+
+                      if (!board.isValidPosition(row, col, value) &&
+                          board.getValue(row, col) != 0) {
+                        cellColor = Colors.red;
+                      }
+
+                      return Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            (col % 3 == 0) ? 2.0 : 0.5,
+                            (row % 3 == 0) ? 2.0 : 0.5,
+                            (col % 3 == 2) ? 2.0 : 0.5,
+                            (row % 3 == 2) ? 2.0 : 0.5),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedSquare = [row, col];
+                            });
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: cellColor,
+                              border: Border.all(color: borderColor),
+                            ),
+                            child: Text(
+                              value == 0 ? '' : value.toString(),
+                              style:
+                                  TextStyle(fontSize: 20.0, color: textColor),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    itemCount: 81,
+                  ),
+                ],
               ),
             ),
             Padding(
@@ -175,16 +224,16 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                                 selectedSquare![1], Colors.white);
                           }
                           setState(() {});
-                          if (board.isFinished()) {
-                            // TODO implement Save function
-                          }
+                          if (board.isFinished()) {}
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                              content: Text('Could not change the value')));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Could not change the value')));
                         }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('No square selected')));
+                            const SnackBar(
+                                content: Text('No square selected')));
                       }
                     },
                     child: index == 0 ? const Text('X') : Text('$index'),
