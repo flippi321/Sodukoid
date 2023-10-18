@@ -16,18 +16,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Builder(
-        builder: (context) => Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Colors.orange, Colors.blue],
-            ),
-          ),
-          child: const SudokuHomePage(),
-        ),
-      ),
+      home: const SudokuHomePage(),
     );
   }
 }
