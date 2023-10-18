@@ -22,10 +22,9 @@ class LanguageProvider with ChangeNotifier {
 
     },
     'no': {
-      'newGame': 'Nytt spill',
-      'createBoard': 'Lag et brett',
-      'howToPlay': 'Hvordan spille',
-
+      'newGame': 'Start et spill',
+      'createBoard': 'Lag et nytt brett',
+      'howToPlay': 'Hvordan spiller du',
     },
   };
 }
