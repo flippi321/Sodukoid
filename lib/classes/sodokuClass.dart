@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:soduku_app/classes/squareClass.dart';
 
 class Sudoku {
@@ -15,15 +17,27 @@ class Sudoku {
   }
 
   Future<List<String>> _getBoardPaths(String difficulty) async {
+    // 1. Fetch asset boards
     final manifestContent = await rootBundle.loadString('AssetManifest.json');
     final Map<String, dynamic> manifestMap = json.decode(manifestContent);
-
-    // Extract the relevant paths
-    final boardPaths = manifestMap.keys
+    final assetBoardPaths = manifestMap.keys
         .where((String key) => key.contains('assets/boards/$difficulty/'))
         .toList();
 
-    return boardPaths;
+    // 2. Fetch user-made boards
+    final directory = await getApplicationDocumentsDirectory();
+    final userBoardDirectory =
+        Directory('${directory.path}/boards/$difficulty/');
+    if (await userBoardDirectory.exists()) {
+      final userBoardFiles =
+          userBoardDirectory.listSync(); // List<FileSystemEntity>
+      final userBoardPaths = userBoardFiles.map((file) => file.path).toList();
+
+      // Combine both lists
+      return assetBoardPaths + userBoardPaths;
+    } else {
+      return assetBoardPaths;
+    }
   }
 
   Future<bool> loadRandomBoard(String difficulty) async {
@@ -56,9 +70,26 @@ class Sudoku {
     return true;
   }
 
-  Future<bool> saveBoard(String difficulty) async {
-    // Todo implement method to save a board
-    return true;
+ Future<bool> saveBoard(String difficulty) async {
+    try {
+      // Get the app's document directory
+      final directory = await getApplicationDocumentsDirectory();
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final filePath = '${directory.path}/boards/$difficulty/board_$timestamp.csv';
+
+      // Convert the board to CSV format
+      List<List<String>> csvBoard = board.map((row) => row.map((square) => square.value.toString()).toList()).toList();
+      String csvString = const ListToCsvConverter().convert(csvBoard);
+
+      // Write the data to the file
+      File file = File(filePath);
+      await file.writeAsString(csvString);
+
+      return true;
+    } catch (error) {
+      print('Error saving board: $error');
+      return false;
+    }
   }
 
   bool isFinished() {
@@ -85,7 +116,7 @@ class Sudoku {
     }
     return false;
   }
-
+  
   bool setColor(int row, int col, Color color) {
     // As long as the position isn't locked we can modify it's background
     if (!board[row][col].isLocked) {
