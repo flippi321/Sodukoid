@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:soduku_app/provider/language_provider.dart';
 import 'package:soduku_app/widgets/custom_appbar.dart';
 import 'classes/sodokuClass.dart';
 
@@ -13,6 +15,7 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
   Sudoku board = Sudoku();
   List<int>? selectedSquare;
   String? _selectedDifficulty;
+  late LanguageProvider languageProvider;
 
   void _clearBoard() {
     for (int i = 0; i < 9; i++) {
@@ -33,18 +36,21 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Clear the board?'),
-          content: const Text(
-              'Are you sure you want to remove all your values on the board?'),
+          title: Text(
+            languageProvider.get("clearBoard"),
+          ),
+          content: Text(
+            languageProvider.get("clearBoard2"),
+          ),
           actions: <Widget>[
             TextButton(
-              child: const Text('No'),
+              child: Text(languageProvider.get("no")),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Yes'),
+              child: Text(languageProvider.get("yes")),
               onPressed: () {
                 _clearBoard();
                 Navigator.of(context).pop();
@@ -59,29 +65,48 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
   void _saveBoard() {
     if (_selectedDifficulty == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please select a difficulty')));
+        SnackBar(
+          content: Text(
+            languageProvider.get("selectDifficulty2"),
+          ),
+        ),
+      );
       return;
     }
     for (int i = 0; i < 9; i++) {
       for (int j = 0; j < 9; j++) {
         if (!board.isValidPosition(i, j, board.getValue(i, j)) &&
             board.getValue(i, j) != 0) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Invalid squares present. Fix them first.')));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                languageProvider.get("saveFailed"),
+              ),
+            ),
+          );
           return;
         }
       }
     }
     board.saveBoard(_selectedDifficulty!.toLowerCase());
     ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Board saved successfully')));
+      SnackBar(
+        content: Text(
+          languageProvider.get("saveSuccess"),
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    languageProvider = Provider.of<LanguageProvider>(context);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: CustomAppBar(title: "New Game", onPressedRefresh: _showClearConfirmationDialog),
+      appBar: CustomAppBar(
+          title: languageProvider.get("newGame"),
+          onPressedRefresh: _showClearConfirmationDialog),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -100,9 +125,12 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
               children: [
                 DropdownButton<String>(
                   value: _selectedDifficulty,
-                  hint: const Text("Select Difficulty"),
-                  items: <String>['Easy', 'Medium', 'Hard']
-                      .map<DropdownMenuItem<String>>((String value) {
+                  hint: Text(languageProvider.get("selectDifficulty")),
+                  items: <String>[
+                    languageProvider.get("easy"),
+                    languageProvider.get("medium"),
+                    languageProvider.get("hard")
+                  ].map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
@@ -117,7 +145,7 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                 const SizedBox(width: 20),
                 ElevatedButton(
                   onPressed: _saveBoard,
-                  child: const Text("Save Board"),
+                  child: Text(languageProvider.get("saveBoard")),
                 )
               ],
             ),
@@ -208,15 +236,17 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                           if (board.isFinished()) {}
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Could not change the value'),
+                            SnackBar(
+                              content:
+                                  Text(languageProvider.get("cannotChange")),
                             ),
                           );
                         }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('No square selected'),
+                          SnackBar(
+                            content:
+                                Text(languageProvider.get("noSelectedSquare")),
                           ),
                         );
                       }
