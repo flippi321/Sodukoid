@@ -1,5 +1,6 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:soduku_app/provider/language_provider.dart';
 import 'package:soduku_app/soduku_congratulations_page.dart';
 import 'package:soduku_app/widgets/custom_appbar.dart';
 import 'classes/sodokuClass.dart';
@@ -17,6 +18,7 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
   List<int>? selectedSquare;
   bool hints = false;
   Color? selectedSquareColor;
+  late LanguageProvider languageProvider;
 
   // Method to clear the board
   void _clearBoard() {
@@ -42,18 +44,21 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
       barrierDismissible: true, // user can tap outside the dialog to dismiss
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Clear the board?'),
-          content: const Text(
-              'Are you sure you want to remove all your values on the board?'),
+          title: Text(
+            languageProvider.get("clearBoard"),
+          ),
+          content: Text(
+            languageProvider.get("clearBoard2"),
+          ),
           actions: <Widget>[
             TextButton(
-              child: const Text('No'),
+              child: Text(languageProvider.get("no")),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Yes'),
+              child: Text(languageProvider.get("yes")),
               onPressed: () {
                 _clearBoard();
                 Navigator.of(context).pop();
@@ -67,9 +72,13 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
 
   @override
   Widget build(BuildContext context) {
+    languageProvider = Provider.of<LanguageProvider>(context);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: CustomAppBar(title: "Solve this!", onPressedRefresh:  _showClearConfirmationDialog),
+      appBar: CustomAppBar(
+          title: languageProvider.get("solveTitle"),
+          onPressedRefresh: _showClearConfirmationDialog),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -239,19 +248,28 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const SodukuCongratulationsScreen(),
+                                builder: (context) =>
+                                    const SodukuCongratulationsScreen(),
                               ),
                             );
                           }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text('Could not change the value')));
+                            SnackBar(
+                              content: Text(
+                                languageProvider.get("cannotChange"),
+                              ),
+                            ),
+                          );
                         }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('No square selected')));
+                          SnackBar(
+                            content: Text(
+                              languageProvider.get("noSelectedSquare"),
+                            ),
+                          ),
+                        );
                       }
                     },
                     child: index == 0 ? const Text('X') : Text('$index'),
