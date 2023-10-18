@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:soduku_app/createSodukuBoard.dart';
 import 'package:soduku_app/new_game.dart';
+import 'package:soduku_app/provider/language_provider.dart';
 import 'package:soduku_app/sudoku_tutorial_page.dart';
 
 class SudokuHomePage extends StatelessWidget {
@@ -8,6 +10,8 @@ class SudokuHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -27,7 +31,7 @@ class SudokuHomePage extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      // TODO change language to norwegian
+                      languageProvider.setLanguage("no");
                     },
                     child: Image.asset(
                       'assets/images/norway_flag.png',
@@ -37,7 +41,7 @@ class SudokuHomePage extends StatelessWidget {
                   const SizedBox(width: 10),
                   GestureDetector(
                     onTap: () {
-                      // TODO change language to english
+                      languageProvider.setLanguage("en");
                     },
                     child: Image.asset(
                       'assets/images/uk_flag.png',
@@ -82,10 +86,10 @@ class SudokuHomePage extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.black,
                       backgroundColor: Colors.white,
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50, vertical: 20),
                     ),
-                    child: const Text('New Game'),
+                    child: Text(languageProvider.get("newGame")),
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
@@ -93,16 +97,17 @@ class SudokuHomePage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const CreateSudokuBoardPage()),
+                            builder: (context) =>
+                                const CreateSudokuBoardPage()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.black,
                       backgroundColor: Colors.white,
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50, vertical: 20),
                     ),
-                    child: const Text('Create a Board'),
+                    child: Text(languageProvider.get("createBoard")),
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
@@ -116,10 +121,10 @@ class SudokuHomePage extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.black,
                       backgroundColor: Colors.white,
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50, vertical: 20),
                     ),
-                    child: const Text('How to Play'),
+                    child: Text(languageProvider.get("howToPlay")),
                   ),
                 ],
               ),
