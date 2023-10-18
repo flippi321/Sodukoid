@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:soduku_app/home.dart';
+import 'package:provider/provider.dart';
+import 'package:soduku_app/provider/language_provider.dart';
+
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => LanguageProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
