@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:soduku_app/widgets/custom_appbar.dart';
 import 'classes/sodokuClass.dart';
 
 class CreateSudokuBoardPage extends StatefulWidget {
@@ -80,27 +81,7 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        title: const Text("New Board"),
-        backgroundColor: Colors.transparent,
-        flexibleSpace: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              color: Colors.black.withOpacity(0.15),
-            ),
-          ),
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: IconButton(
-              icon: const Icon(Icons.refresh, color: Colors.black),
-              onPressed: _showClearConfirmationDialog,
-            ),
-          ),
-        ],
-      ),
+      appBar: const CustomAppBar(title: "New Game"),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
