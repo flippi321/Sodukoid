@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:soduku_app/classes/sodokuClass.dart';
 import 'package:soduku_app/sodukuBoard.dart';
+import 'package:soduku_app/widgets/custom_appbar.dart';
 
 enum Difficulty { easy, medium, hard }
 
@@ -13,19 +14,7 @@ class NewGamePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        title: const Text("New Game"),
-        backgroundColor: Colors.transparent,
-        flexibleSpace: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10), // Blur effect
-            child: Container(
-              color: Colors.black
-                  .withOpacity(0.15), // Slight backround color to the appbar
-            ),
-          ),
-        ),
-      ),
+      appBar: const CustomAppBar(title: "New Game"),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
