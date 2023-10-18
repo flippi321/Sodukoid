@@ -24,10 +24,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: <Widget>[
         Padding(
           padding: const EdgeInsets.only(right: 10.0),
-          child: IconButton(
-            icon: const Icon(Icons.refresh, color: Colors.black),
-            onPressed: onPressedRefresh as void Function()?,
-          ),
+          child: (onPressedRefresh != null)
+              ? IconButton(
+                  icon: const Icon(Icons.refresh, color: Colors.black),
+                  onPressed: onPressedRefresh as void Function()?,
+                )
+              : const SizedBox(
+                  width: 2,
+                ),
         ),
       ],
     );
