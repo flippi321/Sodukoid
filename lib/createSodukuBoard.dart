@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:soduku_app/widgets/custom_appbar.dart';
 import 'classes/sodokuClass.dart';
@@ -82,7 +81,7 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const CustomAppBar(title: "New Game"),
+      appBar: CustomAppBar(title: "New Game", onPressedRefresh: _showClearConfirmationDialog),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
