@@ -42,7 +42,10 @@ class LanguageProvider with ChangeNotifier {
       'saveBoard': 'Save Board',
       'cannotChange' : 'Could not change the value',
       'noSelectedSquare' : 'No square selected',
-      'solveTitle': 'Sodukoid!'
+      'solveTitle': 'Sodukoid!',
+      'sucess' : 'You did it!',
+      'sucess2' : 'Congratulations on solving the Sudoku puzzle!',
+      'backToHome': 'Back to Home',
     },
     'no': {
       'no': 'Nei',
@@ -71,7 +74,10 @@ class LanguageProvider with ChangeNotifier {
       'saveBoard': 'Lagre brett',
       'cannotChange' : 'Kunne ikke endre verdien',
       'noSelectedSquare' : 'Ingen valgt rute',
-      'solveTitle': 'Sodukoid!'
+      'solveTitle': 'Sodukoid!',
+      'sucess' : 'Du klarte det!',
+      'sucess2' : 'Gratulerer med å ha fullført soduku brettet!',
+      'backToHome': 'Gå Hjem',
     },
   };
 }
