@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:soduku_app/createSodukuBoard.dart';
 import 'package:soduku_app/new_game.dart';
+import 'package:soduku_app/sudoku_tutorial_page.dart';
 
 class SudokuHomePage extends StatelessWidget {
   const SudokuHomePage({super.key});
@@ -78,7 +79,7 @@ class SudokuHomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const SudokuTutorialPage()),
+                        builder: (context) => SudokuTutorialPage()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
