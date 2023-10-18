@@ -1,7 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:soduku_app/classes/sodokuClass.dart';
+import 'package:soduku_app/provider/language_provider.dart';
 import 'package:soduku_app/sodukuBoard.dart';
 import 'package:soduku_app/widgets/custom_appbar.dart';
 
@@ -12,9 +12,13 @@ class NewGamePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var languageProvider = Provider.of<LanguageProvider>(context);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const CustomAppBar(title: "New Game"),
+      appBar: CustomAppBar(
+        title: languageProvider.get("newGame"),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -27,9 +31,9 @@ class NewGamePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text(
-                "Select Difficulty",
-                style: TextStyle(
+              Text(
+                languageProvider.get("selectDifficulty"),
+                style: const TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -46,7 +50,9 @@ class NewGamePage extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                 ),
-                child: const Text('Easy'),
+                child: Text(
+                  languageProvider.get("easy"),
+                ),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
@@ -59,7 +65,9 @@ class NewGamePage extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                 ),
-                child: const Text('Medium'),
+                child: Text(
+                  languageProvider.get("medium"),
+                ),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
@@ -72,7 +80,9 @@ class NewGamePage extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                 ),
-                child: const Text('Hard'),
+                child: Text(
+                  languageProvider.get("hard"),
+                ),
               ),
             ],
           ),
@@ -86,18 +96,15 @@ class NewGamePage extends StatelessWidget {
 
     Sudoku board = Sudoku();
 
-    bool success = await board.loadRandomBoard(boardName); // Use await to wait for the method to complete
+    bool success = await board.loadRandomBoard(boardName);
 
     if (success) {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SudokuBoardPage(
-              board:
-                  board), // Removed the const keyword since board is a variable
+          builder: (context) => SudokuBoardPage(board: board),
         ),
       );
     }
-    // TODO valid else?
   }
 }
