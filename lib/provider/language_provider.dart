@@ -25,9 +25,9 @@ class LanguageProvider with ChangeNotifier {
           "   - White (Standard)\n"
           "   - Yellow (Unsure)\n"
           "   - Green (Definitely correct)\n"
-          "4. Press the lightbulb icon to show all incorrect squares.",
+          "4. Press the lightbulb icon to show all incorrect squares if you are stuck.",
       'sodukuRules': 'Soduku Rules',
-      'sodukuRules2': "Sudoku is a logic-based number puzzle. The objective is to fill a 9×9 grid with digits so that each column, each row, and each of the nine 3×3 subgrids that compose the grid contain all of the digits from 1 to 9. Each puzzle has a unique solution and no math is required to solve it. Just pure logic and deduction.",
+      'sodukuRules2': "Sudoku is a logic-based number puzzle. The objective is to fill a 9x9 grid with digits so that each column, each row, and each of the nine 3x3 subgrids that compose the grid contain all of the digits from 1 to 9. Each puzzle normally has a unique solution and no math is required to solve it. Just pure logic and deduction.",
     },
     'no': {
       'newGame': 'Nytt spill',
@@ -38,10 +38,10 @@ class LanguageProvider with ChangeNotifier {
           "3. Du kan fargelegge et felt på tre måter:\n"
           "   - Hvit (Standard)\n"
           "   - Gul (Usikker)\n"
-          "   - Grønn (Helt riktig)\n"
-          "4. Trykk på lyspæreikonet for å vise alle feil felter.",
+          "   - Grønn (Garantert Riktig)\n"
+          "4. Trykk på lyspæreikonet for å vise alle feil felter hvis du sitter fast.",
       'sodukuRules': 'Sudoku-regler',
-      'sodukuRules2': "Sudoku er et logikkbasert tallpuslespill. Målet er å fylle et 9×9 rutenett med sifre slik at hver kolonne, hver rad og hver av de ni 3×3 delrutene som utgjør rutenettet inneholder alle sifrene fra 1 til 9. Hvert puslespill har en unik løsning, og det kreves ingen matte for å løse det. Bare ren logikk og deduksjon.",
+      'sodukuRules2': "Sudoku er et logikkbasert tallpuslespill. Målet er å fylle et 9x9 rutenett med sifre slik at hver kolonne, hver rad og hver av de ni 3x3 delrutene som utgjør rutenettet inneholder alle sifrene fra 1 til 9. Hvert puslespill har valigvist en unik løsning, og det kreves ingen matte for å løse det. Bare ren logikk og deduksjon.",
     },
   };
 }
