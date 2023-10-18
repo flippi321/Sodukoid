@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:soduku_app/home.dart';
+import 'package:soduku_app/widgets/custom_appbar.dart';
 
 class SodukuCongratulationsScreen extends StatelessWidget {
   const SodukuCongratulationsScreen({super.key});
@@ -7,9 +8,7 @@ class SodukuCongratulationsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Congratulations!'),
-      ),
+      appBar: const CustomAppBar(title: "You did it!"),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
