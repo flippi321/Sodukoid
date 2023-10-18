@@ -65,16 +65,17 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
     }
     for (int i = 0; i < 9; i++) {
       for (int j = 0; j < 9; j++) {
-        if (!board.isValidPosition(i, j, board.getValue(i, j)) && board.getValue(i, j) != 0) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Invalid squares present. Fix them first.')));
+        if (!board.isValidPosition(i, j, board.getValue(i, j)) &&
+            board.getValue(i, j) != 0) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('Invalid squares present. Fix them first.')));
           return;
         }
       }
     }
     board.saveBoard(_selectedDifficulty!.toLowerCase());
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('Board saved successfully')));
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Board saved successfully')));
   }
 
   @override
@@ -208,13 +209,17 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                           if (board.isFinished()) {}
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text('Could not change the value')));
+                            const SnackBar(
+                              content: Text('Could not change the value'),
+                            ),
+                          );
                         }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('No square selected')));
+                          const SnackBar(
+                            content: Text('No square selected'),
+                          ),
+                        );
                       }
                     },
                     child: index == 0 ? const Text('X') : Text('$index'),
