@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:soduku_app/createSodukuBoard.dart';
+import 'package:soduku_app/create_soduku_board.dart';
 import 'package:soduku_app/new_game.dart';
 import 'package:soduku_app/provider/language_provider.dart';
 import 'package:soduku_app/sudoku_tutorial_page.dart';
