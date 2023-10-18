@@ -94,15 +94,12 @@ class NewGamePage extends StatelessWidget {
 
   void _loadGame(BuildContext context, Difficulty difficulty) async {
     String boardName = difficulty.name.toLowerCase();
-    print(boardName);
 
     Sudoku board = Sudoku();
 
-    bool success = await board
-        .loadBoard(boardName); // Use await to wait for the method to complete
+    bool success = await board.loadRandomBoard(boardName); // Use await to wait for the method to complete
 
     if (success) {
-      // ignore: use_build_context_synchronously
       Navigator.push(
         context,
         MaterialPageRoute(
