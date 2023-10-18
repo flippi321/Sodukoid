@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:soduku_app/home.dart';
+import 'package:soduku_app/provider/language_provider.dart';
 import 'package:soduku_app/widgets/custom_appbar.dart';
 
 class SodukuCongratulationsScreen extends StatelessWidget {
@@ -7,8 +9,12 @@ class SodukuCongratulationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var languageProvider = Provider.of<LanguageProvider>(context);
+
     return Scaffold(
-      appBar: const CustomAppBar(title: "You did it!"),
+      appBar: CustomAppBar(
+        title: languageProvider.get("success"),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -21,9 +27,9 @@ class SodukuCongratulationsScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text(
-                'Congratulations on solving the Sudoku puzzle!',
-                style: TextStyle(
+              Text(
+                languageProvider.get("success2"),
+                style: const TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -39,7 +45,9 @@ class SodukuCongratulationsScreen extends StatelessWidget {
                     ),
                   );
                 },
-                child: const Text('Back to Home'),
+                child: Text(
+                  languageProvider.get("backToHome"),
+                ),
               ),
             ],
           ),
