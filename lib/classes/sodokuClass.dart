@@ -51,53 +51,59 @@ class Sudoku {
   Future<bool> loadBoard(String boardPath) async {
     String data;
 
-    if (boardPath.startsWith('/')) { // This is a filesystem path
-        try {
-            data = await File(boardPath).readAsString();
-        } catch (e) {
-            print("Error reading the board from filesystem: $e");
-            return false;
-        }
-    } else { // This is an asset
-        try {
-            data = await rootBundle.loadString(boardPath);
-        } catch (e) {
-            print("Error loading the asset: $e");
-            return false;
-        }
+    if (boardPath.startsWith('/')) {
+      // This is a filesystem path
+      try {
+        data = await File(boardPath).readAsString();
+      } catch (e) {
+        print("Error reading the board from filesystem: $e");
+        return false;
+      }
+    } else {
+      // This is an asset
+      try {
+        data = await rootBundle.loadString(boardPath);
+      } catch (e) {
+        print("Error loading the asset: $e");
+        return false;
+      }
     }
 
     // Parse the CSV string
     final List<List<dynamic>> rows = const CsvToListConverter().convert(data);
 
     for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            board[i][j].value = int.parse(rows[i][j].toString());
+      for (int j = 0; j < 9; j++) {
+        board[i][j].value = int.parse(rows[i][j].toString());
 
-            // If the board value is non-zero, lock the square
-            if (board[i][j].value != 0) {
-                board[i][j].isLocked = true;
-                board[i][j].backgroundColor = Colors.grey[400]!;
-            }
+        // If the board value is non-zero, lock the square
+        if (board[i][j].value != 0) {
+          board[i][j].isLocked = true;
+          board[i][j].backgroundColor = Colors.grey[400]!;
         }
+      }
     }
 
     return true;
-}
+  }
 
- Future<bool> saveBoard(String difficulty) async {
+  Future<bool> saveBoard(String difficulty) async {
     try {
       // Get the app's document directory
       final directory = await getApplicationDocumentsDirectory();
       final timestamp = DateTime.now().millisecondsSinceEpoch;
-      final filePath = '${directory.path}/boards/$difficulty/board_$timestamp.csv';
+      final filePath =
+          '${directory.path}/boards/$difficulty/board_$timestamp.csv';
 
       // Convert the board to CSV format
-      List<List<String>> csvBoard = board.map((row) => row.map((square) => square.value.toString()).toList()).toList();
+      List<List<String>> csvBoard = board
+          .map((row) => row.map((square) => square.value.toString()).toList())
+          .toList();
       String csvString = const ListToCsvConverter().convert(csvBoard);
 
       // If the directory doesn't exist, we make it
-      await Directory('${directory.path}/boards/$difficulty/').create(recursive: true);
+      await Directory('${directory.path}/boards/$difficulty/')
+          .create(recursive: true);
 
       // Write the data to the file
       File file = File(filePath);
@@ -134,7 +140,7 @@ class Sudoku {
     }
     return false;
   }
-  
+
   bool setColor(int row, int col, Color color) {
     // As long as the position isn't locked we can modify it's background
     if (!board[row][col].isLocked) {
