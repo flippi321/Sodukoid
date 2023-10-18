@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soduku_app/classes/sodokuClass.dart';
+import 'package:soduku_app/pages/soduku_board.dart';
 import 'package:soduku_app/provider/language_provider.dart';
-import 'package:soduku_app/soduku_board.dart';
 import 'package:soduku_app/widgets/custom_appbar.dart';
 
 enum Difficulty { easy, medium, hard }

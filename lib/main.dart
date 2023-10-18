@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:soduku_app/home.dart';
 import 'package:provider/provider.dart';
+import 'package:soduku_app/pages/home.dart';
 import 'package:soduku_app/provider/language_provider.dart';
 
 
