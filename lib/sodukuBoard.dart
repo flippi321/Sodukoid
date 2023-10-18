@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:soduku_app/soduku_congratulations_page.dart';
+import 'package:soduku_app/widgets/custom_appbar.dart';
 import 'classes/sodokuClass.dart';
 
 class SudokuBoardPage extends StatefulWidget {
@@ -67,27 +69,7 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        title: const Text("New Game"),
-        backgroundColor: Colors.transparent,
-        flexibleSpace: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              color: Colors.black.withOpacity(0.15),
-            ),
-          ),
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: IconButton(
-              icon: const Icon(Icons.refresh, color: Colors.black),
-              onPressed: _showClearConfirmationDialog,
-            ),
-          ),
-        ],
-      ),
+      appBar: CustomAppBar(title: "Solve this!", onPressedRefresh:  _showClearConfirmationDialog),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -254,7 +236,12 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                             selectedSquare![0], selectedSquare![1], index)) {
                           setState(() {});
                           if (widget.board.isFinished()) {
-                            print("Finished");
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SodukuCongratulationsScreen(),
+                              ),
+                            );
                           }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
