@@ -64,7 +64,7 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
     }
     for (int i = 0; i < 9; i++) {
       for (int j = 0; j < 9; j++) {
-        if (!board.isValidPosition(i, j, board.getValue(i, j))) {
+        if (!board.isValidPosition(i, j, board.getValue(i, j)) && board.getValue(i, j) != 0) {
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Invalid squares present. Fix them first.')));
           return;
