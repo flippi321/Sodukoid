@@ -75,7 +75,11 @@ class SudokuHomePage extends StatelessWidget {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  // TODO implement "How to play" logic here
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SudokuTutorialPage()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.black,
