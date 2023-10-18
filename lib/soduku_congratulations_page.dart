@@ -34,9 +34,11 @@ class SodukuCongratulationsScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SudokuHomePage()));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SudokuHomePage(),
+                    ),
+                  );
                 },
                 child: const Text('Back to Home'),
               ),
