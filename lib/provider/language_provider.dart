@@ -43,8 +43,8 @@ class LanguageProvider with ChangeNotifier {
       'cannotChange' : 'Could not change the value',
       'noSelectedSquare' : 'No square selected',
       'solveTitle': 'Sodukoid!',
-      'sucess' : 'You did it!',
-      'sucess2' : 'Congratulations on solving the Sudoku puzzle!',
+      'success' : 'You did it!',
+      'success2' : 'Congratulations on solving the Sudoku puzzle!',
       'backToHome': 'Back to Home',
     },
     'no': {
@@ -75,8 +75,8 @@ class LanguageProvider with ChangeNotifier {
       'cannotChange' : 'Kunne ikke endre verdien',
       'noSelectedSquare' : 'Ingen valgt rute',
       'solveTitle': 'Sodukoid!',
-      'sucess' : 'Du klarte det!',
-      'sucess2' : 'Gratulerer med å ha fullført soduku brettet!',
+      'success' : 'Du klarte det!',
+      'success2' : 'Gratulerer med å ha fullført soduku brettet!',
       'backToHome': 'Gå Hjem',
     },
   };
