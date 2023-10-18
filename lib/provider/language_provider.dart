@@ -42,6 +42,7 @@ class LanguageProvider with ChangeNotifier {
       'saveBoard': 'Save Board',
       'cannotChange' : 'Could not change the value',
       'noSelectedSquare' : 'No square selected',
+      'solveTitle': 'Sodukoid!'
     },
     'no': {
       'no': 'Nei',
@@ -70,6 +71,7 @@ class LanguageProvider with ChangeNotifier {
       'saveBoard': 'Lagre brett',
       'cannotChange' : 'Kunne ikke endre verdien',
       'noSelectedSquare' : 'Ingen valgt rute',
+      'solveTitle': 'Sodukoid!'
     },
   };
 }
