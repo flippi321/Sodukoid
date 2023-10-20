@@ -156,6 +156,7 @@ class SudokuBoardPageState extends State<SudokuBoardPage> {
                     itemCount: 81,
                   ),
                   Positioned(
+                    top: (kToolbarHeight-10),
                     right: 15,
                     child: Row(
                       children: [
