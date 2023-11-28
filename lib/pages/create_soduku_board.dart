@@ -101,7 +101,6 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
   @override
   Widget build(BuildContext context) {
     languageProvider = Provider.of<LanguageProvider>(context);
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: CustomAppBar(
@@ -117,38 +116,6 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
         ),
         child: Column(
           children: [
-            const SizedBox(
-              height: 100,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                DropdownButton<String>(
-                  value: _selectedDifficulty,
-                  hint: Text(languageProvider.get("selectDifficulty")),
-                  items: <String>[
-                    languageProvider.get("easy"),
-                    languageProvider.get("medium"),
-                    languageProvider.get("hard")
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _selectedDifficulty = newValue;
-                    });
-                  },
-                ),
-                const SizedBox(width: 20),
-                ElevatedButton(
-                  onPressed: _saveBoard,
-                  child: Text(languageProvider.get("saveBoard")),
-                )
-              ],
-            ),
             Expanded(
               child: Stack(
                 children: [
@@ -211,6 +178,38 @@ class CreateSudokuBoardPageState extends State<CreateSudokuBoardPage> {
                   ),
                 ],
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                DropdownButton<String>(
+                  value: _selectedDifficulty,
+                  hint: Text(languageProvider.get("selectDifficulty")),
+                  items: <String>[
+                    languageProvider.get("easy"),
+                    languageProvider.get("medium"),
+                    languageProvider.get("hard")
+                  ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedDifficulty = newValue;
+                    });
+                  },
+                ),
+                const SizedBox(width: 20),
+                ElevatedButton(
+                  onPressed: _saveBoard,
+                  child: Text(languageProvider.get("saveBoard")),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 15,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
