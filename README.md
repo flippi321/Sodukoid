@@ -45,7 +45,10 @@ Before you begin, ensure you have the following installed:
 3. **Run the App**:
    - Use `flutter run` in the terminal while in the project directory.
    - This command will build the app and install it on the running emulator.
-   - Alternatively, use your IDE’s run functionality.
+
+4. **Alternativly**:
+   - Navigate to `lib/main.dart` in Android Studio or Visual Studio
+   - Run the application
 
 ## Troubleshooting
 
